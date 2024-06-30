@@ -258,4 +258,30 @@ public class Generador {
 		UtGen.emitirRM("ST", UtGen.AC, 0, UtGen.AC, "limpio el registro de la localidad 0");
 	}
 
+	private static void generarFor(NodoBase nodo){
+		NodoFor n = (NodoFor)nodo;
+		int localidadInicio, localidadCondicion, localidadIncremento, localidadFin;
+
+		if(UtGen.debug) UtGen.emitirComentario("-> for");
+
+		// Generar c?digo para la inicializaci?n
+
+
+		localidadCondicion = UtGen.emitirSalto(0);
+
+		localidadFin = UtGen.emitirSalto(1);
+
+		// Generar c?digo para el cuerpo del ciclo
+		localidadInicio = UtGen.emitirSalto(0);
+
+
+		UtGen.emitirRM_Abs("LDA", UtGen.PC, localidadCondicion, "for: regresar a la condici?n");
+		localidadFin = UtGen.emitirSalto(0);
+		UtGen.cargarRespaldo(localidadFin);
+		UtGen.emitirRM_Abs("JEQ", UtGen.AC, localidadFin, "for: fin del ciclo");
+		UtGen.restaurarRespaldo();
+
+		if(UtGen.debug) UtGen.emitirComentario("<- for");
+	}
+
 }
