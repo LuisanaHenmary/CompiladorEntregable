@@ -59,7 +59,11 @@ public class Generador {
 	//prerequisito: Fijar la tabla de simbolos antes de generar el codigo objeto 
 	private static void generar(NodoBase nodo){
 	if(tablaSimbolos!=null){
-		if (nodo instanceof  NodoIf){
+		if (nodo instanceof NodoBloque){
+			generarBlock(nodo);
+		} else if (nodo instanceof NodoDeclaracion) {
+			generarDeclaraciones(nodo);
+		} else if (nodo instanceof  NodoIf){
 			generarIf(nodo);
 		}else if (nodo instanceof  NodoRepeat){
 			generarRepeat(nodo);
@@ -82,8 +86,24 @@ public class Generador {
 		if(nodo.TieneHermano())
 			generar(nodo.getHermanoDerecha());
 	}else
-		System.out.println("¡¡¡ERROR: por favor fije la tabla de simbolos a usar antes de generar codigo objeto!!!");
+		System.out.println("ï¿½ï¿½ï¿½ERROR: por favor fije la tabla de simbolos a usar antes de generar codigo objeto!!!");
 }
+
+	private static void generarBlock(NodoBase nodo){
+		NodoBloque n = (NodoBloque)nodo;
+		if(n.getDlcs() != null)
+			generar(n.getDlcs());
+		generar(n.getSt());
+
+	}
+
+	private static void generarDeclaraciones(NodoBase nodo){
+		NodoSecuencia n = (NodoSecuencia)nodo;
+
+		generar(n.getDecl());
+		generar(n.getDcs());
+
+	}
 
 	private static void generarIf(NodoBase nodo){
     	NodoIf n = (NodoIf)nodo;
@@ -193,8 +213,8 @@ public class Generador {
 							break;
 			case	por:	UtGen.emitirRO("MUL", UtGen.AC, UtGen.AC1, UtGen.AC, "op: *");
 							break;
-			case	entre:	UtGen.emitirRO("DIV", UtGen.AC, UtGen.AC1, UtGen.AC, "op: /");
-							break;		
+			case	div:	UtGen.emitirRO("DIV", UtGen.AC, UtGen.AC1, UtGen.AC, "op: /");
+							break;
 			case	menor:	UtGen.emitirRO("SUB", UtGen.AC, UtGen.AC1, UtGen.AC, "op: <");
 							UtGen.emitirRM("JLT", UtGen.AC, 2, UtGen.PC, "voy dos instrucciones mas alla if verdadero (AC<0)");
 							UtGen.emitirRM("LDC", UtGen.AC, 0, UtGen.AC, "caso de falso (AC=0)");
