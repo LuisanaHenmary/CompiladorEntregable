@@ -89,17 +89,17 @@ static void imprimirNodo( NodoBase raiz )
 	
 	if(	raiz instanceof NodoOperacion ){
 		tipoOp sel=((NodoOperacion) raiz).getOperacion();
-		if(sel==tipoOp.menor)
+		if(sel== tipoOp.menor)
 			System.out.println("<"); 
-		if(sel==tipoOp.igual)
+		if(sel== tipoOp.igual)
 			System.out.println("=");
-		if(sel==tipoOp.mas)
+		if(sel== tipoOp.mas)
 			System.out.println("+");
-		if(sel==tipoOp.menos)
+		if(sel== tipoOp.menos)
 			System.out.println("-");
-		if(sel==tipoOp.por)
+		if(sel== tipoOp.por)
 			System.out.println("*");
-		if(sel==tipoOp.entre)
+		if(sel== tipoOp.div)
 			System.out.println("/");
 	}
 
