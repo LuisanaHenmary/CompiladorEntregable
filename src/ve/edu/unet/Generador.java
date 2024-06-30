@@ -79,6 +79,10 @@ public class Generador {
 			generarIdentificador(nodo);
 		}else if (nodo instanceof NodoOperacion){
 			generarOperacion(nodo);
+		}else if (nodo instanceof NodoValorBooleano) {
+			generarVariableBooleana(nodo);
+		}else if(nodo instanceof  NodoSecuencia){
+			System.out.println("*\t\t\tSecuencia");
 		}else{
 			System.out.println("BUG: Tipo de nodo a generar desconocido");
 		}
@@ -231,6 +235,13 @@ public class Generador {
 							UtGen.emitirComentario("BUG: tipo de operacion desconocida");
 		}
 		if(UtGen.debug)	UtGen.emitirComentario("<- Operacion: " + n.getOperacion());
+	}
+
+	private static void generarVariableBooleana(NodoBase nodo){
+		NodoValorBooleano n = (NodoValorBooleano)nodo;
+		if(UtGen.debug)	UtGen.emitirComentario("-> constante");
+		UtGen.emitirRM("LDC", UtGen.AC, n.getValor(), 0, "cargar constante: "+n.getValor());
+		if(UtGen.debug)	UtGen.emitirComentario("<- constante");
 	}
 	
 	//TODO: enviar preludio a archivo de salida, obtener antes su nombre
